@@ -2,11 +2,13 @@
 
 {% block content %}
 
-<h1> Single Project</h1>
+<h1> {{project_obj.title}}</h1>
 <hr>
-
-<h1>{{projectid.title}}</h1>
+{% for tag in tags %}
+    <span style="border:2px solid grey">{{tag}}</span>
+{% endfor %}
+<hr>
 <br>
-<p> {{projectid.description}}</p>
+<p> {{project_obj.description}}</p>
 
 {% endblock content %}

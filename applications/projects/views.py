@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from applications.projects.models import Project, Tag, Review
 
 # Create your views here.
 
@@ -33,19 +34,29 @@ projectsList = [
 ]
 
 
-def projects(request):
-    msg = "Hello, you are on projects page"
-    num = 10
-    context = {"message": msg, "page": num, "projects": projectsList}
-    # return render(request, "projects/projects.html", {"message": msg})
-    return render(request, "projects/projects.html", context)
+# def projects(request):
+#     msg = "Hello, you are on projects page"
+#     num = 10
+#     context = {"message": msg, "page": num, "projects": projectsList}
+#     # return render(request, "projects/projects.html", {"message": msg})
+#     return render(request, "projects/projects.html", context)
 
 # -------- single project --------
 
 
+# def project(request, pk):
+#     projectObj = None
+#     for i in projectsList:
+#         if i["id"] == pk:
+#             projectObj = i
+#     return render(request, "projects/single-project.html", {"projectid": projectObj})
+
+def projects(request):
+    projects = Project.objects.all()
+    context = {"projects": projects} # key is used in templates
+    return render(request, "projects/projects.html", context)
+
 def project(request, pk):
-    projectObj = None
-    for i in projectsList:
-        if i["id"] == pk:
-            projectObj = i
-    return render(request, "projects/single-project.html", {"projectid": projectObj})
+    projectObj = Project.objects.get(id=pk)
+    tags = projectObj.tags.all()
+    return render(request, "projects/single-project.html", {"project_obj": projectObj, "tags": tags})

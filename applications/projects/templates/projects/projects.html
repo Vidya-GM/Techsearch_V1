@@ -2,31 +2,29 @@
 
 {% block content %}
 
-<!-- variables -->
-{{message}} {{page}}
-
-<!-- if-elif-else statement -->
-{% if page > 10 %}
-<p> Number is greater than 10</p>
-{% elif page == 10 %}
-<P> Number is 10</P>
-{% else %}
-<p> Number is less than 10</p>
-{% endif %}
-
-<hr>
-
 <!-- for loop -->
 <h1> Projects</h1>
-<!-- projects is a dictionary key whose value is a 'list' of dictionaries -->
-<!-- projects -- list -->
-<!-- proj --dictionary  -->
-<ul>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Project</th>
+        <th>Positive Votes</th>
+        <th>Votes</th>
+        <th></th>
+    </tr>
     {% for proj in projects %}
-    <li> Title:<a href="{% url 'project' proj.id %}"> {{proj.title}}</a> --- {{proj.description}}</li>
-    {% endfor %}
+        <tr>
+            <td>{{proj.id}}</td>
+            <td>{{proj.title}}</td>
+            <td>{{proj.vote_ratio}}%</td>
+            <td>{{proj.vote_total}}</td>
+            <td>{{proj.created}}</td>
+            <td><a href="{% url 'project' proj.id %}">Detailed View</a></td>
 
-</ul>
+        </tr>
+    {% endfor %}
+</table>
+
 
 
 
