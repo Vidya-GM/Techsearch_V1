@@ -39,16 +39,19 @@ def projects(request):
     context = {"projects": projects} # key is used in templates
     return render(request, "projects/projects.html", context)
 
+
 def project(request, pk):
     projectObj = Project.objects.get(id=pk)
     tags = projectObj.tags.all()
     return render(request, "projects/single-project.html", {"project_obj": projectObj, "tags": tags})
 
+
 def createProject(request):
     form = ProjectForm()
     if request.method == "POST":
         print(request.POST)
-        form = ProjectForm(request.POST)
+        form = ProjectForm(request.POST, request.FILES) 
+        #  request.FILES helps to render featured_image(Imagefield) into web page
         if form.is_valid():
             form.save()
             return redirect("projects")
@@ -58,14 +61,16 @@ def createProject(request):
 
 # projects/project_form.html same template is used for creating and updating project
 
+
 def updateProject(request, pk):
 
     project = Project.objects.get(id=pk)
     form = ProjectForm(instance=project)
 
     if request.method == "POST":
-        #print(request.POST)
-        form = ProjectForm(request.POST, instance=project)
+        #  print(request.POST)
+        #  request.FILES helps to render featured_image(Imagefield) into web page
+        form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             form.save()
             return redirect("projects")
